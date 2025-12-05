@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard – MediConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f9f9;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            margin-top: 25px;
+        }
+
+        h1, h4 {
+            color: #006666;
+            font-weight: bold;
+        }
+
+        .profile-section img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 4px solid #00b3b3;
+        }
+
+        .table thead {
+            background-color: #006666;
+            color: #fff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e8f6f6;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #006666;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #00b3b3;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            background: linear-gradient(145deg, #00b3b3, #006666);
+            color: #fff;
+            border-radius: 12px;
+        }
+
+        .card-body h5, .card-body p {
+            color: #f8f9fa;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background: #006666;
+            color: white;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Patient Dashboard</h1>
+        <nav>
+            
+            <a href="home.html">Dashboard</a>
+            <a href="doctor.html">Doctors</a>
+            <a href="#">Appointments</a>
+            <a href="#">Prescriptions</a>
+            <a href="#">Reports</a>
+            <a href="patientProfile.html">Profile</a>
+            <a href="index.html">Logout</a>
+        </nav>
+    </div>
+    <hr>
+
+    <!-- Profile Section -->
+    <div class="profile-section d-flex align-items-center mt-4">
+        <img src="images/patientAvatar.png" alt="Patient Picture">
+        <div class="ms-4">
+            <h3 id="profile-name">Ayaan Ahmed</h3>
+            <p>
+                <strong>Date of Birth:</strong> <span id="dob">15/03/2003</span><br>
+                <strong>Gender:</strong> <span id="gender">Male</span><br>
+                <strong>Blood Group:</strong> <span id="blood">B+</span><br>
+                <strong>Contact:</strong> <span id="contact">+91 98765 43210</span><br>
+                <strong>Email:</strong> <span id="email">ayaan@example.com</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Upcoming Appointments -->
+    <div class="appointments mt-5">
+        <h4>Upcoming Appointments</h4>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Doctor Name</th>
+                <th>Specialization</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Mode</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Dr. Ayesha Khan</td>
+                <td>Cardiologist</td>
+                <td>10/11/2025</td>
+                <td>10:30 AM</td>
+                <td>In-Person</td>
+                <td><span class="badge bg-success">Confirmed</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Prescription Section -->
+    <div class="prescriptions mt-5">
+        <h4>Recent Prescriptions</h4>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Doctor</th>
+                <th>Diagnosis</th>
+                <th>Medicines</th>
+                <th>Next Visit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>05/11/2025</td>
+                <td>Dr. Sneha Patel</td>
+                <td>Skin Allergy</td>
+                <td>Cetrizine, Hydrocortisone Cream</td>
+                <td>20/11/2025</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Reports Section -->
+    <div class="reports mt-5">
+        <h4>Uploaded Medical Reports</h4>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-file-earmark-medical"></i> Blood Test Report</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> 02/11/2025<br>
+                            <strong>Doctor:</strong> Dr. Rohan Sharma<br>
+                            <a href="reports/bloodtest.pdf" class="btn btn-light btn-sm mt-2">View Report</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> MRI Scan Report</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> 28/10/2025<br>
+                            <strong>Doctor:</strong> Dr. Amit Verma<br>
+                            <a href="reports/mri_scan.pdf" class="btn btn-light btn-sm mt-2">View Report</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 MediConnect – Smart Medical Management System
+    </footer>
+</div>
+
+<script>
+    window.onload = function () {
+        const profileData = JSON.parse(localStorage.getItem('patientProfile'));
+        const profileImage = localStorage.getItem('patientImage');
+
+        if (profileData) {
+            document.getElementById('profile-name').textContent = profileData.name;
+            document.getElementById('dob').textContent = profileData.dob;
+            document.getElementById('gender').textContent = profileData.gender;
+            document.getElementById('blood').textContent = profileData.blood;
+            document.getElementById('contact').textContent = profileData.contact;
+            document.getElementById('email').textContent = profileData.email;
+        }
+
+        if (profileImage) {
+            document.querySelector('.profile-section img').src = profileImage;
+        }
+    };
+</script>
+</body>
+</html>

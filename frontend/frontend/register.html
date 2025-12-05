@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediConnect – Register</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: url('images/HomePageImage.png') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      position: relative;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .navbar {
+      background-color: #006666;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .logo { color: #fff; font-size: 1.7rem; font-weight: bold; }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .nav-links a:hover { color: #00e6e6; }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    h2 {
+      color: #006666;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .auth-btn {
+      width: 100%;
+      background-color: #00b3b3;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .auth-btn:hover { background-color: #009999; transform: scale(1.03); }
+
+    p { margin-top: 15px; font-size: 0.95rem; }
+
+    a { color: #006666; text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">MediConnect</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="#news">Health Insights</a></li>
+        <li><a href="#doctors">Doctors</a></li>
+        <li><a href="#chatbot">AI Chatbot</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Create Account</h2>
+    <form id="registerForm" onsubmit="handleRegister(event)">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <select id="role" required>
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="doctor">Doctor</option>
+        <option value="patient">Patient</option>
+
+      </select>
+      <button type="submit" class="auth-btn">Register</button>
+    </form>
+    <p>Already have an account? <a href="index.html">Login here</a></p>
+  </div>
+
+  <script>
+    // Function to check if an Admin exists
+    function checkAdminExistence() {
+      const roleSelect = document.getElementById("role");
+      let adminExists = false;
+
+      // Check through all localStorage users
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        try {
+          const user = JSON.parse(localStorage.getItem(key));
+          if (user && user.role === "admin") {
+            adminExists = true;
+            break;
+          }
+        } catch (e) { /* ignore non-user keys */ }
+      }
+
+      // Hide or show Admin option accordingly
+      for (let i = 0; i < roleSelect.options.length; i++) {
+        if (roleSelect.options[i].value === "admin") {
+          roleSelect.options[i].style.display = adminExists ? "none" : "block";
+        }
+      }
+    }
+
+    window.onload = checkAdminExistence;
+
+    function handleRegister(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+
+      if (!role) {
+        alert("Please select a role before registering!");
+        return;
+      }
+
+      // Prevent duplicate emails
+      if (localStorage.getItem(email)) {
+        alert("This email is already registered!");
+        return;
+      }
+
+      const userData = { name, email, password, role };
+      localStorage.setItem(email, JSON.stringify(userData));
+
+      alert("Registration successful! Redirecting to Login Page");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

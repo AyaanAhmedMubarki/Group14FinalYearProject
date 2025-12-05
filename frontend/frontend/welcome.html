@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediConnect – Welcome</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('images/HomePageImage.png') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #003333;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Overlay for background visibility */
+    body::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.35);
+      z-index: 1;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #006666;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      color: #fff;
+      font-size: 1.7rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00e6e6;
+    }
+
+    /* Welcome container */
+    .welcome-container {
+      text-align: center;
+      max-width: 700px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(3px);
+      animation: fadeIn 1.5s ease-out;
+      position: relative;
+      z-index: 2;
+      margin-top: 100px; /* To adjust below navbar */
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #004d4d;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    p {
+      font-size: 1.15rem;
+      margin-bottom: 35px;
+      line-height: 1.8;
+      color: #222;
+    }
+
+    /* Buttons */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-btn {
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #fff;
+      background-color: #00a3a3;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 163, 163, 0.4);
+    }
+
+    .welcome-btn:hover {
+      background-color: #008b8b;
+      transform: scale(1.05);
+    }
+
+    .welcome-btn.secondary {
+      background-color: #006666;
+    }
+
+    .welcome-btn.secondary:hover {
+      background-color: #008080;
+    }
+
+    /* Floating Bubbles */
+    .background-bubbles {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: rgba(0, 179, 179, 0.12);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .bubble:nth-child(1) {
+      top: 10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .bubble:nth-child(2) {
+      top: 75%;
+      left: 75%;
+      width: 150px;
+      height: 150px;
+      animation-delay: 2.5s;
+    }
+
+    .bubble:nth-child(3) {
+      top: 45%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      animation-delay: 5s;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 1rem; }
+      .welcome-btn { padding: 12px 28px; }
+      .nav-links { gap: 1rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">MediConnect</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="#news">Health Insights</a></li>
+        <li><a href="#doctors">Doctors</a></li>
+        <li><a href="#chatbot">AI Chatbot</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Background Bubbles -->
+  <div class="background-bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="welcome-container">
+    <h1>Welcome to MediConnect</h1>
+    <p>
+      Your one-stop digital healthcare platform — book doctor appointments, 
+      access your medical records, and get AI-powered health support. 
+      Join us and experience smarter healthcare today.
+    </p>
+    <div class="button-container">
+      <a href="register.html" class="welcome-btn">Register</a>
+      <a href="index.html" class="welcome-btn secondary">Login</a>
+    </div>
+  </div>
+</body>
+</html>

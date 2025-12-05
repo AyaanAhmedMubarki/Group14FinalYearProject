@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediConnect – Admin Events</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e6f9f9, #ffffff);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Background Animation */
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .background span {
+      position: absolute;
+      display: block;
+      width: 100px;
+      height: 100px;
+      background: rgba(0, 188, 212, 0.25);
+      border-radius: 50%;
+      animation: move 8s infinite;
+    }
+
+    .background span:nth-child(1) {
+      top: 10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .background span:nth-child(2) {
+      top: 30%;
+      left: 70%;
+      animation-delay: 2s;
+    }
+
+    .background span:nth-child(3) {
+      top: 60%;
+      left: 25%;
+      animation-delay: 4s;
+    }
+
+    @keyframes move {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #004d61;
+      padding: 12px 25px;
+      color: #fff;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #00e0c7;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .navbar ul li a:hover {
+      background-color: #00bcd4;
+      color: #fff;
+    }
+
+    /* Page Container */
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #004d61;
+      margin-bottom: 40px;
+      font-weight: bold;
+    }
+
+    /* Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-body h3 {
+      color: #004d61;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .card-body p {
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .card-body a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #00bcd4;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .card-body a:hover {
+      background-color: #0097a7;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #004d61;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      margin-top: 40px;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background -->
+  <div class="background">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">MediConnect Admin</div>
+    <ul>
+      <li><a href="adminDashboard.html">Dashboard</a></li>
+      <li><a href="adminDoctors.html">Doctors</a></li>
+      <li><a href="adminPatients.html">Patients</a></li>
+      <li><a href="adminEvents.html" class="active">Events</a></li>
+      <li><a href="adminNews.html">Health News</a></li>
+      <li><a href="index.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Container -->
+  <div class="container">
+    <h1 class="section-title">Medical Events & Health Camps</h1>
+
+    <div class="card-grid">
+      <!-- Upcoming Events -->
+      <div class="card" onclick="window.location.href='upcomingEvents.html'">
+        <div class="card-header">
+          <img src="images/healthcamp.jpg" alt="Upcoming Health Camps">
+        </div>
+        <div class="card-body">
+          <h3>Upcoming Health Camps</h3>
+          <p>Schedule and manage upcoming vaccination, blood donation, and wellness camps.</p>
+          <a href="upcomingEvents.html">View More</a>
+        </div>
+      </div>
+
+      <!-- Ongoing Events -->
+      <div class="card" onclick="window.location.href='ongoingEvents.html'">
+        <div class="card-header">
+          <img src="images/awareness.jpg" alt="Ongoing Medical Events">
+        </div>
+        <div class="card-body">
+          <h3>Ongoing Medical Drives</h3>
+          <p>Monitor ongoing health awareness campaigns, screenings, and outreach programs.</p>
+          <a href="ongoingEvents.html">View More</a>
+        </div>
+      </div>
+
+      <!-- Completed Events -->
+      <div class="card" onclick="window.location.href='completedEvents.html'">
+        <div class="card-header">
+          <img src="images/completed.jpg" alt="Completed Events">
+        </div>
+        <div class="card-body">
+          <h3>Completed Events</h3>
+          <p>Review past events, attendance, and medical outcomes from previous programs.</p>
+          <a href="completedEvents.html">View More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 MediConnect Admin Portal. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+      });
+    });
+  </script>
+</body>
+</html>
