@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events – MediConnectX Doctor</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; margin: 0; padding: 0; background-color: #f0f8ff; color: #333; }
+    .navbar {
+      background-color: #005580; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .logo { color: #fff; font-size: 1.4rem; font-weight: bold; }
+    .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 1rem; }
+    .nav-links a:hover { color: #66ccff; }
+    .events-header {
+      background: linear-gradient(to right, rgba(0,85,128,0.85), rgba(0,40,80,0.85)),
+        url("images/MainPageImage.jpg") center/cover;
+      color: white; text-align: center; padding: 60px 20px;
+    }
+    .events-header h1 { font-size: 2.8rem; margin-bottom: 10px; }
+    .events-header p { font-size: 1.15rem; font-weight: 300; }
+    .events-container {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px; max-width: 1400px; margin: 40px auto; padding: 0 20px;
+    }
+    .event-card {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;
+      display: flex; flex-direction: column; transition: transform 0.3s;
+    }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+    .event-image { width: 100%; height: 200px; object-fit: cover; }
+    .event-details { padding: 20px; flex-grow: 1; }
+    .event-details h3 { color: #005580; margin-bottom: 8px; }
+    .event-details p { color: #555; font-size: 0.92rem; margin-bottom: 4px; }
+    .events-footer { background-color: #005580; color: #fff; text-align: center; padding: 20px; margin-top: 40px; }
+    .loading { text-align: center; padding: 40px; color: #005580; font-size: 1.1rem; }
+    .no-events { text-align: center; padding: 40px; color: #888; }
+    .badge-tag {
+      display: inline-block; background: #e0f2ff; color: #005580;
+      padding: 3px 10px; border-radius: 12px; font-size: 0.82rem; margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">MediConnectX – Doctor</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="DoctorHome.html">Home</a></li>
+        <li><a href="Doctor.html">Dashboard</a></li>
+        <li><a href="DoctorEvents.html">Events</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="events-header">
+    <h1>Health &amp; Wellness Events</h1>
+    <p>Browse upcoming events. Patients registered in these events may request your assistance.</p>
+  </div>
+
+  <div class="events-container" id="eventsContainer">
+    <div class="loading">Loading events...</div>
+  </div>
+
+  <footer class="events-footer"><p>© 2026 MediConnectX. All Rights Reserved.</p></footer>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth('DOCTOR');
+
+    async function loadEvents() {
+      try {
+        const events = await apiGet('/api/events');
+        if (!events || events.length === 0) {
+          document.getElementById('eventsContainer').innerHTML = '<div class="no-events">No events available at the moment.</div>';
+          return;
+        }
+        document.getElementById('eventsContainer').innerHTML = events.map(ev => {
+          const imgTag = ev.imageLink
+            ? `<img src="${imgSrc(ev.imageLink)}" alt="${ev.eventName}" class="event-image">`
+            : `<div class="event-image" style="background:#d0eaff;display:flex;align-items:center;justify-content:center;color:#005580;font-size:2.5rem;">🏥</div>`;
+          return `
+            <div class="event-card">
+              ${imgTag}
+              <div class="event-details">
+                <h3>${ev.eventName || 'Unnamed Event'}</h3>
+                <p>📅 <strong>Date:</strong> ${ev.eventDate || '—'}</p>
+                <p>📍 <strong>Location:</strong> ${ev.location || '—'}</p>
+                <p>🎯 <strong>Meet:</strong> ${ev.meetName || '—'}</p>
+                <span class="badge-tag">🏷️ ${ev.category || 'General'}</span>
+              </div>
+            </div>`;
+        }).join('');
+      } catch (e) {
+        document.getElementById('eventsContainer').innerHTML =
+          '<div class="no-events">Could not load events. Please try again later.</div>';
+      }
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html>

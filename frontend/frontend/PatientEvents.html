@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Events – MediConnectX Patient</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; color: #333; }
+    .navbar {
+      background-color: #006666; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .logo { color: #fff; font-size: 1.4rem; font-weight: bold; }
+    .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 1rem; transition: 0.3s; }
+    .nav-links a:hover { color: #00e6e6; }
+    .events-header {
+      background: linear-gradient(to right, rgba(0,102,102,0.85), rgba(0,51,51,0.85)),
+        url("images/MainPageImage.jpg") center/cover;
+      color: white; text-align: center; padding: 60px 20px;
+    }
+    .events-header h1 { font-size: 2.8rem; margin-bottom: 10px; }
+    .events-header p { font-size: 1.15rem; font-weight: 300; }
+    .events-section { padding: 40px 20px; }
+    .events-container {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px; max-width: 1400px; margin: 0 auto;
+    }
+    .event-card {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;
+      display: flex; flex-direction: column; transition: transform 0.3s;
+    }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+    .event-image { width: 100%; height: 200px; object-fit: cover; }
+    .event-details { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .event-details h3 { color: #006666; margin-bottom: 8px; }
+    .event-details p { color: #666; font-size: 0.92rem; margin-bottom: 4px; }
+    .register-btn {
+      margin-top: 14px; padding: 10px 0; background-color: #00b3b3;
+      color: #fff; border: none; border-radius: 5px; cursor: pointer;
+      width: 100%; font-size: 1rem; transition: 0.3s;
+    }
+    .register-btn:hover { background-color: #008080; }
+    .register-btn.registered { background-color: #27ae60; cursor: default; }
+    .register-btn:disabled { background-color: #aaa; cursor: not-allowed; }
+    .events-footer { background-color: #006666; color: #fff; text-align: center; padding: 20px; margin-top: 40px; }
+    .loading { text-align: center; padding: 40px; color: #006666; font-size: 1.1rem; }
+    .no-events { text-align: center; padding: 40px; color: #888; font-size: 1.1rem; }
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 2000;
+      justify-content: center; align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center; }
+    .modal h3 { color: #006666; margin-bottom: 12px; }
+    .modal-btn { padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95rem; margin: 6px; }
+    .modal-btn.primary { background-color: #006666; color: #fff; }
+    .modal-btn.secondary { background-color: #ccc; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">MediConnectX – Events</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="PatientHome.html">Home</a></li>
+        <li><a href="Patient.html">Dashboard</a></li>
+        <li><a href="PatientEvents.html">Events</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="events-header">
+    <h1>Health &amp; Wellness Events</h1>
+    <p>Browse and register for upcoming community health events.</p>
+  </div>
+
+  <main class="events-section">
+    <div class="events-container" id="eventsContainer">
+      <div class="loading">Loading events...</div>
+    </div>
+  </main>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm Registration</h3>
+      <p id="modalBody"></p>
+      <div>
+        <button class="modal-btn primary" id="modalConfirm">Confirm</button>
+        <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="events-footer"><p>© 2026 MediConnectX. All Rights Reserved.</p></footer>
+
+  <script src="api.js"></script>
+  <script>
+    const auth = requireAuth('PATIENT');
+    let registeredEventIds = new Set();
+
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+
+    async function loadEvents() {
+      try {
+        const [events, myRegs] = await Promise.all([
+          apiGet('/api/events'),
+          apiGet('/api/registration/search?patientId=' + auth.roleId).catch(() => [])
+        ]);
+        registeredEventIds = new Set((myRegs || []).map(r => r.eventId));
+        renderEvents(events);
+      } catch (e) {
+        document.getElementById('eventsContainer').innerHTML = '<div class="no-events">Could not load events. Please try again later.</div>';
+      }
+    }
+
+    function renderEvents(events) {
+      if (!events || events.length === 0) {
+        document.getElementById('eventsContainer').innerHTML = '<div class="no-events">No events available at the moment.</div>';
+        return;
+      }
+      document.getElementById('eventsContainer').innerHTML = events.map(ev => {
+        const isReg = registeredEventIds.has(ev.id);
+        const imgTag = ev.imageLink
+          ? `<img src="${imgSrc(ev.imageLink)}" alt="${ev.eventName}" class="event-image">`
+          : `<div class="event-image" style="background:#e0f0f0;display:flex;align-items:center;justify-content:center;color:#006666;font-size:2rem;">📋</div>`;
+        return `
+          <div class="event-card">
+            ${imgTag}
+            <div class="event-details">
+              <h3>${ev.eventName || 'Unnamed Event'}</h3>
+              <p>📅 ${ev.eventDate || '—'}</p>
+              <p>📍 ${ev.location || '—'}</p>
+              <p>🏷️ Category: ${ev.category || '—'}</p>
+              <p>🎯 Meet: ${ev.meetName || '—'}</p>
+              <button class="register-btn ${isReg ? 'registered' : ''}"
+                id="btn-${ev.id}"
+                ${isReg ? 'disabled' : ''}
+                onclick="confirmRegister(${ev.id}, '${(ev.eventName || '').replace(/'/g, "\\'")}')">
+                ${isReg ? '✓ Registered' : 'Register Now'}
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function confirmRegister(eventId, eventName) {
+      document.getElementById('modalBody').textContent = `Register for "${eventName}"?`;
+      document.getElementById('modalConfirm').onclick = () => doRegister(eventId);
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    async function doRegister(eventId) {
+      closeModal();
+      const btn = document.getElementById('btn-' + eventId);
+      if (btn) { btn.disabled = true; btn.textContent = 'Registering...'; }
+      const dto = { patientId: auth.roleId, eventId: eventId, registrationDate: today(), status: 'PENDING' };
+      const fd = new FormData();
+      fd.append('registrationDTO', JSON.stringify(dto));
+      try {
+        await apiFormPost('/api/registration/create', fd);
+        registeredEventIds.add(eventId);
+        if (btn) { btn.textContent = '✓ Registered'; btn.classList.add('registered'); }
+      } catch (e) {
+        alert('Registration failed: ' + e.message);
+        if (btn) { btn.disabled = false; btn.textContent = 'Register Now'; }
+      }
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html>

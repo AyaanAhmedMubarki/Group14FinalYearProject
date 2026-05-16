@@ -1,236 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard – MediConnect</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f9f9;
-        }
-
-        .container {
-            background: #fff;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            margin-top: 25px;
-        }
-
-        h1, h4 {
-            color: #006666;
-            font-weight: bold;
-        }
-
-        .profile-section img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border: 4px solid #00b3b3;
-        }
-
-        .table thead {
-            background-color: #006666;
-            color: #fff;
-        }
-
-        .table tbody tr:hover {
-            background-color: #e8f6f6;
-        }
-
-        .table th, .table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #006666;
-            font-weight: 600;
-            margin: 0 15px;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #00b3b3;
-        }
-
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            background: linear-gradient(145deg, #00b3b3, #006666);
-            color: #fff;
-            border-radius: 12px;
-        }
-
-        .card-body h5, .card-body p {
-            color: #f8f9fa;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            background: #006666;
-            color: white;
-            border-radius: 8px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard – MediConnectX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f4f9f9; }
+    .top-navbar {
+      background-color: #006666; padding: 0.8rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .top-navbar .brand { color: #fff; font-size: 1.4rem; font-weight: bold; text-decoration: none; }
+    .top-navbar a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 0.95rem; }
+    .top-navbar a:hover { color: #00e6e6; }
+    .container { background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-top: 25px; }
+    h1, h4 { color: #006666; font-weight: bold; }
+    .profile-section img { width: 150px; height: 150px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 4px solid #00b3b3; object-fit: cover; }
+    .table thead { background-color: #006666; color: #fff; }
+    .table tbody tr:hover { background-color: #e8f6f6; }
+    .table th, .table td { text-align: center; vertical-align: middle; }
+    .badge-pending { background-color: #f39c12; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
+    .badge-approved { background-color: #27ae60; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
+    .badge-rejected { background-color: #e74c3c; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
+    footer { text-align: center; margin-top: 30px; padding: 15px; background: #006666; color: white; border-radius: 8px; }
+    .loading { text-align: center; color: #006666; padding: 20px; }
+  </style>
 </head>
-
 <body>
-<div class="container">
-    <!-- Header -->
+  <div class="top-navbar">
+    <a href="PatientHome.html" class="brand">MediConnectX – Patient</a>
+    <div>
+      <a href="PatientHome.html">Home</a>
+      <a href="Patient.html">Dashboard</a>
+      <a href="PatientProfile.html">Profile</a>
+      <a href="PatientEvents.html">Events</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-        <h1>Patient Dashboard</h1>
-        <nav>
-            
-            <a href="home.html">Dashboard</a>
-            <a href="doctor.html">Doctors</a>
-            <a href="#">Appointments</a>
-            <a href="#">Prescriptions</a>
-            <a href="#">Reports</a>
-            <a href="patientProfile.html">Profile</a>
-            <a href="index.html">Logout</a>
-        </nav>
+      <h1>Patient Dashboard</h1>
+      <a href="PatientProfile.html" class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i> Edit Profile</a>
     </div>
     <hr>
 
     <!-- Profile Section -->
-    <div class="profile-section d-flex align-items-center mt-4">
-        <img src="images/patientAvatar.png" alt="Patient Picture">
-        <div class="ms-4">
-            <h3 id="profile-name">Ayaan Ahmed</h3>
+    <div class="profile-section d-flex align-items-center mt-4" id="profileSection">
+      <div class="loading">Loading profile...</div>
+    </div>
+
+    <!-- Event Registrations -->
+    <div class="mt-5">
+      <h4><i class="bi bi-calendar-check"></i> My Event Registrations</h4>
+      <div id="registrationsSection" class="mt-3"><div class="loading">Loading registrations...</div></div>
+    </div>
+
+    <!-- Assistance Requests -->
+    <div class="mt-5">
+      <h4><i class="bi bi-person-lines-fill"></i> My Doctor Assistance Requests</h4>
+      <div id="assistanceSection" class="mt-3"><div class="loading">Loading requests...</div></div>
+    </div>
+
+    <!-- Results -->
+    <div class="mt-5">
+      <h4><i class="bi bi-trophy"></i> My Event Results</h4>
+      <div id="resultsSection" class="mt-3"><div class="loading">Loading results...</div></div>
+    </div>
+
+    <footer>© 2026 MediConnectX – Smart Medical Management System</footer>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    const auth = requireAuth('PATIENT');
+
+    function statusBadge(s) {
+      const cls = s === 'APPROVED' || s === 'ACCEPTED' ? 'badge-approved' : s === 'REJECTED' ? 'badge-rejected' : 'badge-pending';
+      return `<span class="${cls}">${s || 'PENDING'}</span>`;
+    }
+
+    async function loadProfile() {
+      try {
+        const d = await apiGet('/api/patient/profile?email=' + encodeURIComponent(auth.email));
+        const imgSrc2 = d.imageLink ? imgSrc(d.imageLink) : 'https://via.placeholder.com/150';
+        document.getElementById('profileSection').innerHTML = `
+          <img src="${imgSrc2}" alt="Patient Picture">
+          <div class="ms-4">
+            <h3>${d.name || auth.name}</h3>
             <p>
-                <strong>Date of Birth:</strong> <span id="dob">15/03/2003</span><br>
-                <strong>Gender:</strong> <span id="gender">Male</span><br>
-                <strong>Blood Group:</strong> <span id="blood">B+</span><br>
-                <strong>Contact:</strong> <span id="contact">+91 98765 43210</span><br>
-                <strong>Email:</strong> <span id="email">ayaan@example.com</span>
+              <strong>Date of Birth:</strong> ${d.birthDate || '—'}<br>
+              <strong>Gender:</strong> ${d.gender || '—'}<br>
+              <strong>Height:</strong> ${d.height ? d.height + ' cm' : '—'}<br>
+              <strong>Weight:</strong> ${d.weight ? d.weight + ' kg' : '—'}<br>
+              <strong>Category:</strong> ${d.category || '—'}<br>
+              <strong>Email:</strong> ${d.email || auth.email}
             </p>
-        </div>
-    </div>
+          </div>`;
+      } catch (e) {
+        document.getElementById('profileSection').innerHTML = `<p class="text-warning">Profile not yet set up. <a href="PatientProfile.html">Complete your profile</a>.</p>`;
+      }
+    }
 
-    <!-- Upcoming Appointments -->
-    <div class="appointments mt-5">
-        <h4>Upcoming Appointments</h4>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>Doctor Name</th>
-                <th>Specialization</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Mode</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Dr. Ayesha Khan</td>
-                <td>Cardiologist</td>
-                <td>10/11/2025</td>
-                <td>10:30 AM</td>
-                <td>In-Person</td>
-                <td><span class="badge bg-success">Confirmed</span></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    async function loadRegistrations() {
+      try {
+        const regs = await apiGet('/api/registration/search?patientId=' + auth.roleId);
+        if (!regs.length) { document.getElementById('registrationsSection').innerHTML = '<p class="text-muted">No event registrations yet. <a href="PatientEvents.html">Browse events</a>.</p>'; return; }
+        let rows = regs.map(r => `<tr>
+          <td>${r.id}</td><td>${r.eventId}</td>
+          <td>${r.registrationDate || '—'}</td>
+          <td>${statusBadge(r.status)}</td>
+          <td><button class="btn btn-sm btn-outline-danger" onclick="cancelReg(${r.id})">Cancel</button></td>
+        </tr>`).join('');
+        document.getElementById('registrationsSection').innerHTML = `
+          <table class="table table-striped table-hover">
+            <thead><tr><th>Reg ID</th><th>Event ID</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (e) {
+        document.getElementById('registrationsSection').innerHTML = '<p class="text-muted">No registrations found.</p>';
+      }
+    }
 
-    <!-- Prescription Section -->
-    <div class="prescriptions mt-5">
-        <h4>Recent Prescriptions</h4>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Doctor</th>
-                <th>Diagnosis</th>
-                <th>Medicines</th>
-                <th>Next Visit</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>05/11/2025</td>
-                <td>Dr. Sneha Patel</td>
-                <td>Skin Allergy</td>
-                <td>Cetrizine, Hydrocortisone Cream</td>
-                <td>20/11/2025</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    async function loadAssistance() {
+      try {
+        const list = await apiGet('/api/assistance/search?patientId=' + auth.roleId);
+        if (!list.length) { document.getElementById('assistanceSection').innerHTML = '<p class="text-muted">No assistance requests found.</p>'; return; }
+        let rows = list.map(a => `<tr>
+          <td>${a.id}</td><td>${a.doctorId}</td>
+          <td>${a.requestDate || '—'}</td>
+          <td>${statusBadge(a.status)}</td>
+          <td>${a.remarks || '—'}</td>
+        </tr>`).join('');
+        document.getElementById('assistanceSection').innerHTML = `
+          <table class="table table-striped table-hover">
+            <thead><tr><th>ID</th><th>Doctor ID</th><th>Date</th><th>Status</th><th>Remarks</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (e) {
+        document.getElementById('assistanceSection').innerHTML = '<p class="text-muted">No assistance requests found.</p>';
+      }
+    }
 
-    <!-- Reports Section -->
-    <div class="reports mt-5">
-        <h4>Uploaded Medical Reports</h4>
-        <div class="row">
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-file-earmark-medical"></i> Blood Test Report</h5>
-                        <p class="card-text">
-                            <strong>Date:</strong> 02/11/2025<br>
-                            <strong>Doctor:</strong> Dr. Rohan Sharma<br>
-                            <a href="reports/bloodtest.pdf" class="btn btn-light btn-sm mt-2">View Report</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> MRI Scan Report</h5>
-                        <p class="card-text">
-                            <strong>Date:</strong> 28/10/2025<br>
-                            <strong>Doctor:</strong> Dr. Amit Verma<br>
-                            <a href="reports/mri_scan.pdf" class="btn btn-light btn-sm mt-2">View Report</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    async function loadResults() {
+      try {
+        const results = await apiGet('/api/result/search?patientId=' + auth.roleId);
+        if (!results.length) { document.getElementById('resultsSection').innerHTML = '<p class="text-muted">No results published yet.</p>'; return; }
+        let rows = results.map(r => `<tr>
+          <td>${r.id}</td><td>${r.eventId}</td>
+          <td>${r.score !== undefined ? r.score : '—'}</td>
+          <td>${r.remarks || '—'}</td>
+          <td>${r.publishDate || '—'}</td>
+        </tr>`).join('');
+        document.getElementById('resultsSection').innerHTML = `
+          <table class="table table-striped table-hover">
+            <thead><tr><th>ID</th><th>Event ID</th><th>Score</th><th>Remarks</th><th>Published</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (e) {
+        document.getElementById('resultsSection').innerHTML = '<p class="text-muted">No results available.</p>';
+      }
+    }
 
-    <footer>
-        © 2025 MediConnect – Smart Medical Management System
-    </footer>
-</div>
+    async function cancelReg(id) {
+      if (!confirm('Cancel this registration?')) return;
+      try {
+        await apiDelete('/api/registration/delete/' + id);
+        alert('Registration cancelled.');
+        loadRegistrations();
+      } catch (e) { alert('Error: ' + e.message); }
+    }
 
-<script>
-    window.onload = function () {
-        const profileData = JSON.parse(localStorage.getItem('patientProfile'));
-        const profileImage = localStorage.getItem('patientImage');
-
-        if (profileData) {
-            document.getElementById('profile-name').textContent = profileData.name;
-            document.getElementById('dob').textContent = profileData.dob;
-            document.getElementById('gender').textContent = profileData.gender;
-            document.getElementById('blood').textContent = profileData.blood;
-            document.getElementById('contact').textContent = profileData.contact;
-            document.getElementById('email').textContent = profileData.email;
-        }
-
-        if (profileImage) {
-            document.querySelector('.profile-section img').src = profileImage;
-        }
-    };
-</script>
+    loadProfile();
+    loadRegistrations();
+    loadAssistance();
+    loadResults();
+  </script>
 </body>
 </html>

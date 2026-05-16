@@ -1,211 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            background: #fff;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h4 {
-            color: #343a40;
-            font-weight: bold;
-        }
-
-        .profile-section img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #343a40;
-            font-weight: 500;
-            margin: 0 15px;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #007bff;
-        }
-
-        .table thead {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .table th, .table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            background: linear-gradient(145deg, #5ea3f7, #3f72af);
-            color: #fff;
-            border-radius: 10px;
-        }
-
-        .card-body h5, .card-body p {
-            color: #f8f9fa;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard – MediConnectX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f0f8ff; }
+    .top-navbar {
+      background-color: #01486b; padding: 0.8rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .top-navbar .brand { color: #fff; font-size: 1.4rem; font-weight: bold; text-decoration: none; }
+    .top-navbar a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 0.95rem; }
+    .top-navbar a:hover { color: #66ccff; }
+    .container { background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 25px; }
+    h1, h4 { color: #005580; font-weight: bold; }
+    .profile-section img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 4px solid #0077b3; }
+    .table thead { background-color: #01486b; color: #fff; }
+    .table tbody tr:hover { background-color: #e8f4ff; }
+    .table th, .table td { text-align: center; vertical-align: middle; }
+    .badge-pending  { background:#f39c12; color:#fff; padding:4px 10px; border-radius:12px; font-size:.8rem; }
+    .badge-accepted { background:#27ae60; color:#fff; padding:4px 10px; border-radius:12px; font-size:.8rem; }
+    .badge-rejected { background:#e74c3c; color:#fff; padding:4px 10px; border-radius:12px; font-size:.8rem; }
+    footer { text-align: center; margin-top: 30px; padding: 15px; background: #005580; color: white; border-radius: 8px; }
+    .loading { text-align:center; color:#005580; padding:20px; }
+    /* Update modal */
+    .modal-backdrop-custom { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center; }
+    .modal-backdrop-custom.show { display:flex; }
+    .modal-box { background:#fff; padding:30px; border-radius:12px; width:90%; max-width:420px; }
+    .modal-box h5 { color:#005580; margin-bottom:16px; }
+  </style>
 </head>
-
 <body>
-<div class="container mt-4">
-    <!-- Header -->
+  <div class="top-navbar">
+    <a href="DoctorHome.html" class="brand">MediConnectX – Doctor</a>
+    <div>
+      <a href="DoctorHome.html">Home</a>
+      <a href="Doctor.html">Dashboard</a>
+      <a href="DoctorProfile.html">Profile</a>
+      <a href="DoctorEvents.html">Events</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-        <h1>Doctor Dashboard</h1>
-        <nav>
-            <a href="home.html">Home</a>
-            <a href="#">Patients</a>
-            <a href="#">Appointments</a>
-            <a href="#">Prescriptions</a>
-            <a href="#">Reports</a>
-            <a href="doctorProfile.html">Profile</a>
-            <a href="index.html">Logout</a>
-        </nav>
+      <h1>Doctor Dashboard</h1>
+      <a href="DoctorProfile.html" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square"></i> Edit Profile</a>
     </div>
     <hr>
 
-    <!-- Profile Section -->
-    <div class="profile-section d-flex align-items-center mt-4">
-        <img src="https://via.placeholder.com/150" alt="Doctor Picture">
-        <div class="ms-4">
-            <h3 id="profile-name">Dr. Sarah Johnson</h3>
-            <p>
-                <strong>Specialization:</strong> <span id="specialty">Cardiology</span><br>
-                <strong>Experience:</strong> <span id="experience">12 Years</span><br>
-                <strong>Patients Managed:</strong> <span id="patients-managed">256</span><br>
-                <strong>Contact:</strong> <span id="contact">dr.sarah@hospital.com</span>
-            </p>
-        </div>
+    <!-- Profile -->
+    <div class="profile-section d-flex align-items-center mt-4" id="profileSection">
+      <div class="loading">Loading profile...</div>
     </div>
 
-    <!-- Today's Appointments -->
-    <div class="assigned-teams mt-4">
-        <h4>Today's Appointments</h4>
-        <ul class="list-group">
-            <li class="list-group-item">10:00 AM - John Doe (Chest Pain)</li>
-            <li class="list-group-item">11:30 AM - Priya Sharma (Follow-up Check)</li>
-            <li class="list-group-item">02:00 PM - Arjun Patel (Heart Health Review)</li>
-        </ul>
+    <!-- Assistance Requests -->
+    <div class="mt-5">
+      <h4><i class="bi bi-person-lines-fill"></i> Patient Assistance Requests</h4>
+      <div id="assistanceSection" class="mt-3"><div class="loading">Loading requests...</div></div>
     </div>
 
-    <!-- Patient Records -->
-    <div class="team-members-performance mt-4">
-        <h4>Recent Patients</h4>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>Patient Name</th>
-                <th>Condition</th>
-                <th>Last Visit</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>John Doe</td>
-                <td>High Blood Pressure</td>
-                <td>04/11/2025</td>
-                <td>Stable</td>
-            </tr>
-            <tr>
-                <td>Priya Sharma</td>
-                <td>Heart Palpitations</td>
-                <td>05/11/2025</td>
-                <td>Under Observation</td>
-            </tr>
-            <tr>
-                <td>Arjun Patel</td>
-                <td>Chest Pain</td>
-                <td>06/11/2025</td>
-                <td>Recovering</td>
-            </tr>
-            </tbody>
-        </table>
+    <footer>© 2026 MediConnectX – Smart Medical Management System</footer>
+  </div>
+
+  <!-- Update Modal -->
+  <div class="modal-backdrop-custom" id="updateModal">
+    <div class="modal-box">
+      <h5>Update Assistance Request</h5>
+      <input type="hidden" id="modalReqId">
+      <div class="mb-3">
+        <label class="form-label fw-bold">Status</label>
+        <select class="form-select" id="modalStatus">
+          <option value="PENDING">PENDING</option>
+          <option value="ACCEPTED">ACCEPTED</option>
+          <option value="REJECTED">REJECTED</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Remarks</label>
+        <textarea class="form-control" id="modalRemarks" rows="3" placeholder="Add remarks..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="submitUpdate()">Save</button>
+      <button class="btn btn-secondary ms-2" onclick="closeModal()">Cancel</button>
     </div>
+  </div>
 
-    <!-- Prescriptions Issued -->
-    <div class="events-supervised mt-4">
-        <h4>Recent Prescriptions</h4>
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">John Doe</h5>
-                        <p class="card-text"><strong>Condition:</strong> Hypertension</p>
-                        <p class="card-text"><strong>Medication:</strong> Amlodipine 5mg</p>
-                        <p class="card-text"><strong>Dosage:</strong> Once Daily</p>
-                        <p class="card-text"><strong>Date:</strong> 04/11/2025</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Priya Sharma</h5>
-                        <p class="card-text"><strong>Condition:</strong> Arrhythmia</p>
-                        <p class="card-text"><strong>Medication:</strong> Metoprolol 25mg</p>
-                        <p class="card-text"><strong>Dosage:</strong> Twice Daily</p>
-                        <p class="card-text"><strong>Date:</strong> 05/11/2025</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <script src="api.js"></script>
+  <script>
+    const auth = requireAuth('DOCTOR');
 
-</div>
-
-<script>
-    // Load the doctor's profile from localStorage
-    function updateDoctorProfile() {
-        const profileData = JSON.parse(localStorage.getItem('doctorProfile'));
-
-        if (profileData) {
-            document.querySelector('.profile-section img').src = profileData.profilePic || 'https://via.placeholder.com/150';
-            document.getElementById('profile-name').textContent = profileData.name || 'Dr. Sarah Johnson';
-            document.getElementById('specialty').textContent = profileData.specialty || 'Cardiology';
-            document.getElementById('experience').textContent = profileData.experience || '12 Years';
-            document.getElementById('patients-managed').textContent = profileData.patientsManaged || '256';
-            document.getElementById('contact').textContent = profileData.contact || 'dr.sarah@hospital.com';
-        }
+    function statusBadge(s) {
+      const cls = s === 'ACCEPTED' ? 'badge-accepted' : s === 'REJECTED' ? 'badge-rejected' : 'badge-pending';
+      return `<span class="${cls}">${s || 'PENDING'}</span>`;
     }
 
-    window.onload = updateDoctorProfile;
-</script>
+    async function loadProfile() {
+      try {
+        const d = await apiGet('/api/doctor/profile?email=' + encodeURIComponent(auth.email));
+        const pic = d.imageLink ? imgSrc(d.imageLink) : 'https://via.placeholder.com/150';
+        document.getElementById('profileSection').innerHTML = `
+          <img src="${pic}" alt="Doctor Picture">
+          <div class="ms-4">
+            <h3>Dr. ${d.name || auth.name}</h3>
+            <p>
+              <strong>Category / Specialisation:</strong> ${d.category || '—'}<br>
+              <strong>Date of Birth:</strong> ${d.birthDate || '—'}<br>
+              <strong>Gender:</strong> ${d.gender || '—'}<br>
+              <strong>Email:</strong> ${auth.email}
+            </p>
+          </div>`;
+      } catch (e) {
+        document.getElementById('profileSection').innerHTML =
+          `<p class="text-warning">Profile not yet set up. <a href="DoctorProfile.html">Complete your profile</a>.</p>`;
+      }
+    }
 
+    async function loadAssistance() {
+      try {
+        const list = await apiGet('/api/assistance/search?doctorId=' + auth.roleId);
+        if (!list.length) {
+          document.getElementById('assistanceSection').innerHTML = '<p class="text-muted">No assistance requests at the moment.</p>';
+          return;
+        }
+        const rows = list.map(a => `<tr>
+          <td>${a.id}</td>
+          <td>${a.patientId}</td>
+          <td>${a.requestDate || '—'}</td>
+          <td>${statusBadge(a.status)}</td>
+          <td>${a.remarks || '—'}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" onclick="openModal(${a.id},'${a.status||'PENDING'}','${(a.remarks||'').replace(/'/g,"\\'")}')">
+              <i class="bi bi-pencil"></i> Update
+            </button>
+          </td>
+        </tr>`).join('');
+        document.getElementById('assistanceSection').innerHTML = `
+          <table class="table table-striped table-hover">
+            <thead><tr><th>ID</th><th>Patient ID</th><th>Date</th><th>Status</th><th>Remarks</th><th>Action</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (e) {
+        document.getElementById('assistanceSection').innerHTML = '<p class="text-muted">No assistance requests found.</p>';
+      }
+    }
+
+    function openModal(id, status, remarks) {
+      document.getElementById('modalReqId').value = id;
+      document.getElementById('modalStatus').value = status;
+      document.getElementById('modalRemarks').value = remarks;
+      document.getElementById('updateModal').classList.add('show');
+    }
+
+    function closeModal() { document.getElementById('updateModal').classList.remove('show'); }
+
+    async function submitUpdate() {
+      const id = document.getElementById('modalReqId').value;
+      const status = document.getElementById('modalStatus').value;
+      const remarks = encodeURIComponent(document.getElementById('modalRemarks').value);
+      try {
+        await apiFormPut(`/api/assistance/update?id=${id}&status=${status}&remarks=${remarks}`, new FormData());
+        closeModal();
+        alert('Request updated successfully.');
+        loadAssistance();
+      } catch (e) { alert('Error: ' + e.message); }
+    }
+
+    loadProfile();
+    loadAssistance();
+  </script>
 </body>
 </html>

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MediConnectX – Register</title>
+  <title>MediConnectX – Login</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Poppins", "Segoe UI", sans-serif;
       background: url("images/HomePageImage.png") center/cover no-repeat;
       display: flex; justify-content: center; align-items: center;
-      min-height: 100vh; flex-direction: column; position: relative;
+      height: 100vh; flex-direction: column; position: relative;
     }
     body::after {
       content: ""; position: absolute; inset: 0;
@@ -31,15 +31,13 @@
       background-color: rgba(255,255,255,0.95);
       padding: 40px; border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      width: 90%; max-width: 420px; text-align: center; margin-top: 120px;
+      width: 90%; max-width: 400px; text-align: center; margin-top: 120px;
     }
     h2 { color: #006666; margin-bottom: 20px; font-size: 2rem; }
-    input, select {
-      width: 100%; padding: 12px; margin: 8px 0;
-      border-radius: 8px; border: 1px solid #ccc;
-      font-size: 1rem; font-family: inherit;
+    input {
+      width: 100%; padding: 12px; margin: 10px 0;
+      border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;
     }
-    select { cursor: pointer; background-color: white; }
     .auth-btn {
       width: 100%; background-color: #00b3b3; color: white;
       border: none; padding: 12px; border-radius: 8px;
@@ -50,7 +48,6 @@
     p { margin-top: 15px; font-size: 0.95rem; }
     a { color: #006666; text-decoration: none; font-weight: 600; }
     .error-msg { color: #c0392b; font-size: 0.9rem; margin-top: 8px; display: none; }
-    .success-msg { color: #27ae60; font-size: 0.9rem; margin-top: 8px; display: none; }
   </style>
 </head>
 <body>
@@ -59,7 +56,7 @@
     <nav>
       <ul class="nav-links">
         <li><a href="Welcome.html">Home</a></li>
-        <li><a href="Login.html">Login</a></li>
+        <li><a href="Register.html">Register</a></li>
         <li><a href="AboutUs.html">About Us</a></li>
         <li><a href="Contact.html">Contact</a></li>
       </ul>
@@ -67,49 +64,45 @@
   </header>
 
   <div class="container">
-    <h2>Create Account</h2>
-    <form id="registerForm" onsubmit="handleRegister(event)">
-      <input type="text" id="name" placeholder="Full Name" required />
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="handleLogin(event)">
       <input type="email" id="email" placeholder="Email Address" required />
-      <input type="password" id="password" placeholder="Create Password" required />
-      <select id="role" required>
-        <option value="" disabled selected>Select Your Role</option>
-        <option value="ADMIN">Admin</option>
-        <option value="DOCTOR">Doctor</option>
-        <option value="PATIENT">Patient</option>
-      </select>
+      <input type="password" id="password" placeholder="Password" required />
       <div class="error-msg" id="errorMsg"></div>
-      <div class="success-msg" id="successMsg"></div>
-      <button type="submit" class="auth-btn" id="registerBtn">Register</button>
+      <button type="submit" class="auth-btn" id="loginBtn">Login</button>
     </form>
-    <p>Already have an account? <a href="Login.html">Login here</a></p>
+    <p>Don't have an account? <a href="Register.html">Register here</a></p>
   </div>
 
   <script src="api.js"></script>
   <script>
-    async function handleRegister(event) {
+    async function handleLogin(event) {
       event.preventDefault();
-      const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
-      const role = document.getElementById('role').value;
-      const btn = document.getElementById('registerBtn');
+      const btn = document.getElementById('loginBtn');
       const errEl = document.getElementById('errorMsg');
-      const okEl = document.getElementById('successMsg');
       errEl.style.display = 'none';
-      okEl.style.display = 'none';
       btn.disabled = true;
-      btn.textContent = 'Registering...';
+      btn.textContent = 'Logging in...';
       try {
-        await apiPostJSON('/api/auth/register', { name, email, password, role });
-        okEl.textContent = 'Registration successful! Redirecting to login...';
-        okEl.style.display = 'block';
-        setTimeout(() => window.location.href = 'Login.html', 1500);
+        const data = await apiPostJSON('/api/auth/login', { email, password });
+        localStorage.setItem('auth', JSON.stringify({
+          token: data.token,
+          email: email,
+          role: data.role,
+          roleId: data.roleId,
+          name: data.name
+        }));
+        if (data.role === 'ADMIN') window.location.href = 'AdminHome.html';
+        else if (data.role === 'DOCTOR') window.location.href = 'DoctorHome.html';
+        else if (data.role === 'PATIENT') window.location.href = 'PatientHome.html';
+        else window.location.href = 'Welcome.html';
       } catch (err) {
-        errEl.textContent = 'Registration failed: ' + err.message;
+        errEl.textContent = 'Login failed: ' + err.message;
         errEl.style.display = 'block';
         btn.disabled = false;
-        btn.textContent = 'Register';
+        btn.textContent = 'Login';
       }
     }
   </script>

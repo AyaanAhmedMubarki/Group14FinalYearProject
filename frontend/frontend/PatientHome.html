@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediConnectX – Patient Home</title>
+  <style>
+    body, h1, h2, p, ul, li { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+    .navbar {
+      background-color: #006666; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .logo { color: #fff; font-size: 1.7rem; font-weight: bold; }
+    .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 1rem; }
+    .nav-links a:hover { color: #00e6e6; }
+    .hero {
+      background: url("images/MainPageImage.jpg") center/cover no-repeat;
+      min-height: 100vh; color: #fff;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; position: relative;
+    }
+    .hero::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 20px; }
+    .hero h1 { font-size: 3.5rem; font-weight: 700; color: #ffffff; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); font-family: "Poppins", sans-serif; }
+    .hero p { font-size: 1.4rem; font-weight: 500; color: #e6f9f9; margin-top: 15px; text-shadow: 1px 1px 6px rgba(0,0,0,0.6); }
+    .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 30px; background-color: #f4f9f9; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; text-align: center; transition: transform 0.2s; cursor: pointer; }
+    .card:hover { transform: scale(1.05); }
+    .card-image { width: 100%; height: 200px; object-fit: cover; }
+    .card-content { padding: 15px; }
+    .card-content h2 { color: #006666; margin-bottom: 10px; }
+    footer { text-align: center; padding: 10px; background: #006666; color: white; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">MediConnectX – Patient</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="PatientHome.html">Home</a></li>
+        <li><a href="Patient.html">My Dashboard</a></li>
+        <li><a href="PatientProfile.html">My Profile</a></li>
+        <li><a href="PatientEvents.html">Events</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1 id="welcomeTitle">Welcome Back!</h1>
+      <p>Your health is our priority. View your events, profile and wellness journey easily.</p>
+    </div>
+  </section>
+
+  <main>
+    <div class="card-container">
+      <div class="card" onclick="window.location.href='Patient.html'">
+        <img src="images/MedicalRecordImage.jpg" alt="Dashboard" class="card-image" />
+        <div class="card-content">
+          <h2>My Dashboard</h2>
+          <p>View your event registrations, assistance requests and results.</p>
+        </div>
+      </div>
+      <div class="card" onclick="window.location.href='PatientEvents.html'">
+        <img src="images/BookAppointmentImage.jpg" alt="Events" class="card-image" />
+        <div class="card-content">
+          <h2>Browse Events</h2>
+          <p>Explore and register for upcoming health & wellness events.</p>
+        </div>
+      </div>
+      <div class="card" onclick="window.location.href='PatientProfile.html'">
+        <img src="images/DoctorsImages.jpg" alt="Profile" class="card-image" />
+        <div class="card-content">
+          <h2>My Profile</h2>
+          <p>Update your personal details, health metrics and photo.</p>
+        </div>
+      </div>
+      <div class="card" onclick="window.location.href='Patient.html'">
+        <img src="images/HealthNewsImage.jpg" alt="Results" class="card-image" />
+        <div class="card-content">
+          <h2>My Results</h2>
+          <p>Check scores and remarks published by the admin for your events.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer><p>© 2026 MediConnectX – Smart Medical Management System. All Rights Reserved.</p></footer>
+
+  <script src="api.js"></script>
+  <script>
+    const auth = requireAuth('PATIENT');
+    if (auth) {
+      document.getElementById('welcomeTitle').textContent = 'Welcome Back, ' + auth.name + '!';
+    }
+  </script>
+</body>
+</html>
