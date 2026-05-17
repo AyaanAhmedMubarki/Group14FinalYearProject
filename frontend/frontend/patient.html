@@ -9,13 +9,32 @@
   <style>
     body { font-family: 'Segoe UI', sans-serif; background-color: #f4f9f9; }
     .top-navbar {
-      background-color: #006666; padding: 0.8rem 2rem;
+      background-color: #003d3d; padding: 0.8rem 1.5rem;
       display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
-    .top-navbar .brand { color: #fff; font-size: 1.4rem; font-weight: bold; text-decoration: none; }
-    .top-navbar a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 0.95rem; }
-    .top-navbar a:hover { color: #00e6e6; }
-    .container { background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-top: 25px; }
+    .top-navbar .brand { color: #fff; font-size: 1.4rem; font-weight: 700; text-decoration: none; white-space: nowrap; letter-spacing: 0.01em; }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; padding: 0; line-height: 1; }
+    .nav-menu { display: flex; gap: 0.25rem; align-items: center; }
+    .nav-menu a { color: rgba(255,255,255,0.88); text-decoration: none; margin-left: 0; font-size: 0.95rem; padding: 6px 15px; border-radius: 20px; transition: background 0.2s, color 0.2s; white-space: nowrap; letter-spacing: 0.02em; }
+    .nav-menu a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .nav-menu a.nav-active { background: rgba(255,255,255,0.28); color: #fff; font-weight: 600; }
+    .container { background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-top: 20px; }
+    #registrationsSection, #assistanceSection, #resultsSection { overflow-x: auto; }
+    @media(max-width:768px){
+      .top-navbar .brand{font-size:1rem;}
+      .hamburger{display:block;}
+      .nav-menu{display:none;flex-direction:column;width:100%;padding:0.5rem 0;gap:0;}
+      .nav-menu.open{display:flex;}
+      .nav-menu a{margin-left:0;padding:0.65rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.15);display:block;}
+      .nav-menu a:last-child{border-bottom:none;}
+      .container{padding:18px 14px;}
+      #profileSection{flex-direction:column!important;align-items:flex-start!important;}
+      #profileSection .ms-4{margin-left:0!important;margin-top:16px;}
+      h1{font-size:1.6rem;}
+      .table th, .table td{font-size:0.82rem;padding:0.4rem 0.5rem;}
+    }
     h1, h4 { color: #006666; font-weight: bold; }
     .profile-section img { width: 150px; height: 150px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 4px solid #00b3b3; object-fit: cover; }
     .table thead { background-color: #006666; color: #fff; }
@@ -24,14 +43,15 @@
     .badge-pending { background-color: #f39c12; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
     .badge-approved { background-color: #27ae60; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
     .badge-rejected { background-color: #e74c3c; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
-    footer { text-align: center; margin-top: 30px; padding: 15px; background: #006666; color: white; border-radius: 8px; }
+    footer { text-align: center; margin-top: 30px; padding: 15px; background: #003d3d; color: white; border-radius: 8px; }
     .loading { text-align: center; color: #006666; padding: 20px; }
   </style>
 </head>
 <body>
   <div class="top-navbar">
     <a href="PatientHome.html" class="brand">MediConnectX – Patient</a>
-    <div>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Toggle menu">&#9776;</button>
+    <div class="nav-menu" id="mainNav">
       <a href="PatientHome.html">Home</a>
       <a href="Patient.html">Dashboard</a>
       <a href="PatientProfile.html">Profile</a>
@@ -73,6 +93,16 @@
     <footer>© 2026 MediConnectX – Smart Medical Management System</footer>
   </div>
 
+  <script>function toggleNav(){document.getElementById('mainNav').classList.toggle('open');}</script>
+  <script>
+(function(){
+  var page=location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav-links a,.nav-menu a').forEach(function(a){
+    var h=(a.getAttribute('href')||'').split('/').pop();
+    if(h&&h!=='#'&&h===page)a.classList.add('nav-active');
+  });
+})();
+</script>
   <script src="api.js"></script>
   <script>
     const auth = requireAuth('PATIENT');
@@ -128,15 +158,26 @@
       try {
         const list = await apiGet('/api/assistance/search?patientId=' + auth.roleId);
         if (!list.length) { document.getElementById('assistanceSection').innerHTML = '<p class="text-muted">No assistance requests found.</p>'; return; }
+
+        // Resolve doctor names in parallel
+        const doctorNames = {};
+        await Promise.all([...new Set(list.map(a => a.doctorId))].map(async id => {
+          try {
+            const d = await apiGet('/api/doctor/search?id=' + id);
+            doctorNames[id] = d.name ? 'Dr. ' + d.name : 'Doctor #' + id;
+          } catch { doctorNames[id] = 'Doctor #' + id; }
+        }));
+
         let rows = list.map(a => `<tr>
-          <td>${a.id}</td><td>${a.doctorId}</td>
+          <td>${a.id}</td>
+          <td>${doctorNames[a.doctorId] || 'Doctor #' + a.doctorId}</td>
           <td>${a.requestDate || '—'}</td>
           <td>${statusBadge(a.status)}</td>
           <td>${a.remarks || '—'}</td>
         </tr>`).join('');
         document.getElementById('assistanceSection').innerHTML = `
           <table class="table table-striped table-hover">
-            <thead><tr><th>ID</th><th>Doctor ID</th><th>Date</th><th>Status</th><th>Remarks</th></tr></thead>
+            <thead><tr><th>ID</th><th>Doctor</th><th>Date</th><th>Status</th><th>Remarks</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>`;
       } catch (e) {
