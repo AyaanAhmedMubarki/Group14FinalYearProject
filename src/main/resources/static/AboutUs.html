@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>MediConnectX – About Us</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:"Segoe UI",sans-serif;background:#f5fbfb;color:#222;}
+
+    /* ── Navbar ── */
+    .navbar{background:#003d3d;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 4px 8px rgba(0,0,0,.15);}
+    .logo{color:#fff;font-size:1.4rem;font-weight:700;white-space:nowrap;letter-spacing:0.01em;}
+    .hamburger{display:none;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:0;line-height:1;}
+    .nav-links{list-style:none;display:flex;gap:0.25rem;align-items:center;}
+    .nav-links a{color:rgba(255,255,255,0.88);text-decoration:none;font-size:0.95rem;padding:6px 15px;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;letter-spacing:0.02em;}
+    .nav-links a:hover{background:rgba(255,255,255,0.15);color:#fff;}
+    .nav-links a.nav-active{background:rgba(255,255,255,0.28);color:#fff;font-weight:600;}
+    @media(max-width:768px){
+      .logo{font-size:1.1rem;}
+      .hamburger{display:block;}
+      .navbar nav{position:absolute;top:100%;left:0;width:100%;z-index:99;}
+      .nav-links{display:none;flex-direction:column;flex-wrap:nowrap;background:#003d3d;padding:0.8rem 1.5rem;gap:0;box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+      .nav-links.open{display:flex;}
+      .nav-links li{border-bottom:1px solid rgba(255,255,255,0.15);}
+      .nav-links li:last-child{border-bottom:none;}
+      .nav-links a{display:block;padding:0.65rem 0;}
+      .hero h1{font-size:1.9rem;}
+      .section{padding:30px 16px;}
+      .roles{grid-template-columns:1fr;}
+    }
+
+    /* ── Hero ── */
+    .hero{
+      background: linear-gradient(rgba(26, 202, 202, 0.589),rgba(0,40,40,.78)),
+                  url("images/NewsContactAndAboutUsImage.jpg") no-repeat center center/cover;
+      color:#fff;text-align:center;padding:50px 20px 40px;
+    }
+    .hero h1{font-size:2.6rem;font-weight:700;letter-spacing:1px;text-shadow:1px 2px 8px rgba(0,0,0,.4);}
+    .hero p{font-size:1.1rem;margin-top:10px;color:#ccf0f0;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6;}
+
+    /* ── Section wrapper ── */
+    .section{max-width:1060px;margin:0 auto;padding:40px 24px;}
+    .section-title{font-size:1.6rem;font-weight:700;color:#003d3d;margin-bottom:5px; text-align: center;}
+
+    /* ── Roles ── */
+    .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+    .role-card{background:#fff;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.07);padding:24px;text-align:center; border-top:4px solid #00b3b3;}
+    .role-icon{font-size:2.5rem;margin-bottom:10px;}
+    .role-card h3{color:#003d3d;margin-bottom:12px;font-size:1.1rem;}
+    .role-card ul{list-style:none;color:#555;font-size:.9rem;line-height:1.7;text-align:left;padding:0 5px;}
+    .role-card ul li::before{content:"✓ ";color:#00b3b3;font-weight:700;}
+
+    /* ── Divider ── */
+    .divider{border:none;border-top:1px solid #d8eeee;margin: 0 auto; max-width: 80%;}
+
+    /* ── Mentor & Team Section Specific Styles ── */
+    .mentor-section {
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+    .mentor-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-top: 5px solid #003d3d;
+        padding: 20px;
+        text-align: center;
+        max-width: 850px;
+        margin: 0 auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .mentor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        background-color: #e6f7f7;
+    }
+    .mentor-card h3 {
+        font-size: 1.4rem;
+        color: #003d3d;
+        margin-bottom: 5px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+    .mentor-card h3:hover {
+        color: #00b3b3;
+        cursor: pointer;
+    }
+    .mentor-card h4 {
+        font-size: 0.9rem;
+        color: #555;
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .mentor-card p {
+        font-size: 1rem;
+        color: #555;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 5px;
+    }
+    .team-member {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-top: 5px solid #00b3b3;
+        padding: 20px 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .team-member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        background-color: #f2fdfd;
+    }
+    .team-member h3 {
+        font-size: 1.15rem;
+        color: #00b3b3;
+        margin-bottom: 5px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+    .team-member h3:hover {
+        color: #003d3d;
+        cursor: pointer;
+    }
+    .team-member h4 {
+        font-size: 0.8rem;
+        color: #003d3d;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .team-member p {
+        font-size: 0.9rem;
+        color: #555;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 992px) {
+        .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .team-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #003d3d;
+      color: #fff;
+    }
+    footer p { font-size: 0.9rem; margin: 0; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">MediConnectX</div>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Toggle menu">&#9776;</button>
+    <nav><ul class="nav-links" id="mainNav">
+      <li><a href="Welcome.html">Home</a></li>
+      <li><a href="#chatbot">AI Chatbot</a></li>
+      <li><a href="News.html">News</a></li>
+      <li><a href="AboutUs.html">About Us</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+    </ul></nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>About MediConnectX</h1>
+    <p>A smart, role-based platform unifying patient care, doctor responsiveness, and administrative control into one secure, efficient ecosystem.</p>
+  </div>
+
+  <!-- Roles -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="roles">
+      <div class="role-card">
+        <div class="role-icon">🛡️</div>
+        <h3>Administrators</h3>
+        <ul>
+          <li>Create and manage health events</li>
+          <li>Approve patient registrations</li>
+          <li>Enforce secure role-based access</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">👨‍⚕️</div>
+        <h3>Doctors</h3>
+        <ul>
+          <li>Maintain verified specialist profiles</li>
+          <li>Review assistance requests</li>
+          <li>Provide personalised medical remarks</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">🏃</div>
+        <h3>Patients</h3>
+        <ul>
+          <li>Discover and register for events</li>
+          <li>Track registration approvals</li>
+          <li>Request direct doctor assistance</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- The People Behind MediConnectX (Mentor & Team) -->
+  <section class="section">
+    <p class="section-title">The People Behind MediConnectX</p>
+    
+    <!-- MENTOR SECTION -->
+    <div class="mentor-section">
+        <div class="mentor-card">
+            <h3>Prof. Silpi Ghosh</h3>
+            <h4>Project Mentor</h4>
+            <p>Providing expert technical mentorship, strategic insights, and invaluable support throughout the entire development lifecycle.</p>
+        </div>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <div class="team">
+        <div class="team-grid">
+            <div class="team-member">
+                <h3>Ayaan Ahmed Mubarki</h3>
+                <h4>Lead Architect</h4>
+                <p>Engineered the online booking system, spearheaded the frontend UI/UX design, and integrated the online and offline booking architectures.</p>
+            </div>
+            <div class="team-member">
+                <h3>Madhuchanda Kundu</h3>
+                <h4>Offline System Developer</h4>
+                <p>Developed the core backend logic for the offline booking system and built the foundational page structures for the booking workflow.</p>
+            </div>
+            <div class="team-member">
+                <h3>Sweety Rajak</h3>
+                <h4>System Security Developer</h4>
+                <p>Integrated JWT authentication for secure role-based access and collaborated on the architecture and module design of the offline booking system.</p>
+            </div>
+            <div class="team-member">
+                <h3>Raunak Roy</h3>
+                <h4>API Integration Specialist</h4>
+                <p>Managed the frontend implementation and seamless integration of the third-party Grok AI API to enable conversational chatbot features.</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <footer><p>© 2026 MediConnectX – Smart Medical Management System. All Rights Reserved.</p></footer>
+
+  <script>function toggleNav(){document.getElementById('mainNav').classList.toggle('open');}</script>
+  <script>
+(function(){
+  var page=location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav-links a,.nav-menu a').forEach(function(a){
+    var h=(a.getAttribute('href')||'').split('/').pop();
+    if(h&&h!=='#'&&h===page)a.classList.add('nav-active');
+  });
+})();
+</script>
+  <script src="chatbot.js"></script>
+</body>
+</html>
