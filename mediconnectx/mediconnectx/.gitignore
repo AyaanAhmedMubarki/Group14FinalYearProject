@@ -16,11 +16,6 @@ target/
 ### IntelliJ IDEA ###
 .idea
 *.iws
-# Credentials - NEVER commit
-mediconnectx/mediconnectx/src/main/resources/application.properties
-
-# IDE / local settings
-.idea/
 *.iml
 *.ipr
 
@@ -36,10 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-# Maven build output
-mediconnectx/mediconnectx/target/
-
-# OS
-.DS_Store
-Thumbs.db
